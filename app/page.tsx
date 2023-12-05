@@ -1,3 +1,4 @@
+import { ModeToggle } from '@/components/mode-toggle';
 import { UserButton } from '@clerk/nextjs';
 
 export default function Home() {
@@ -5,6 +6,7 @@ export default function Home() {
         <>
             <p className="text-orange-500 font-bold text-3xl">Discord clone</p>
             <UserButton afterSignOutUrl="/" />
+            <ModeToggle />
         </>
     );
 }

@@ -3,6 +3,7 @@ import { Roboto } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { cn } from '@/lib/utils';
 
 const font = Roboto({ weight: '500', style: 'normal', subsets: ['latin'] });
 
@@ -15,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <ClerkProvider>
             <html lang="en" suppressHydrationWarning>
-                <body className={`${font.className}`}>
+                <body className={cn(font.className, 'bg-white dark:bg-[#323232]')}>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="dark"
