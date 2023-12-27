@@ -17,12 +17,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FileUpload } from '@/components/FileUpload';
 import { useRouter } from 'next/navigation';
+import { useModal } from '@/hooks/useModalStore';
 
 const formSchema = z.object({
     name: z.string().min(3, {
@@ -33,14 +33,11 @@ const formSchema = z.object({
     }),
 });
 
-export const InitialModal = () => {
-    const [isMounted, setIsMounted] = useState(false);
-
+export const CreateServerModal = () => {
+    const { isOpen, onClose, type } = useModal();
     const router = useRouter();
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    const isModalOpen = isOpen && type === 'createServer';
 
     const form = useForm({
         defaultValues: { name: '', imageUrl: '' },
@@ -55,18 +52,19 @@ export const InitialModal = () => {
 
             form.reset();
             router.refresh();
-            window.location.reload();
+            onClose();
         } catch (error) {
             console.log(error);
         }
     };
 
-    if (!isMounted) {
-        return null;
-    }
+    const handleClose = () => {
+        form.reset();
+        onClose();
+    };
 
     return (
-        <Dialog open>
+        <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className="bg-white text-black p-0 overflow-hidden">
                 <DialogHeader className="pt-8 px-6">
                     <DialogTitle className="text-center text-zinc-700">Create your server</DialogTitle>

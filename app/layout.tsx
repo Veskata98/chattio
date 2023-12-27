@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
-import { ThemeProvider } from '@/components/providers/theme-provider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { cn } from '@/lib/utils';
+import { ModalProvider } from '@/components/providers/ModalProvider';
 
 const font = Roboto({ weight: '500', style: 'normal', subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         enableSystem={false}
                         storageKey="discord-theme"
                     >
+                        <ModalProvider />
                         {children}
                     </ThemeProvider>
                 </body>
