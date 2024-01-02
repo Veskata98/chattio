@@ -35,6 +35,12 @@ export const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
             endpoint={endpoint}
             onClientUploadComplete={(res) => onChange(res?.[0].url)}
             onUploadError={(error) => console.log(error)}
+            appearance={{
+                button: 'bg-orange-500',
+                label: 'text-orange-500 hover:text-orange-400',
+                uploadIcon: 'text-orange-500',
+                container: 'border-none',
+            }}
         />
     );
 };
