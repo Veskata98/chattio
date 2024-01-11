@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
+
 import { db } from '@/lib/db';
+
 import { InitialProfile } from '@/lib/initialProfile';
 import { InitialModal } from '@/components/modals/InitialModal';
 
