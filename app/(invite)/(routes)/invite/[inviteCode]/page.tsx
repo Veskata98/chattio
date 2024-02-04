@@ -22,9 +22,11 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
         return redirect('/');
     }
 
-    const existingServer = await db.server.findFirst({ where: { members: { some: { profileId: profile.id } } } });
+    const existingServer = await db.server.findFirst({
+        where: { members: { some: { profileId: profile.id } } },
+    });
 
-    if (existingServer) {
+    if (existingServer && existingServer.inviteCode === inviteCode) {
         return redirect(`/servers/${existingServer.id}`);
     }
 
