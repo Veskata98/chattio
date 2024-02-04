@@ -30,7 +30,7 @@ import { MemberRole } from '@prisma/client';
 
 const roleIconMap = {
     GUEST: null,
-    MODERATOR: <ShieldCheck className="h-4 w-4 ml-2 text-orange-500" />,
+    MODERATOR: <ShieldCheck className="h-4 w-4 ml-2 text-zinc-500" />,
     ADMIN: <ShieldAlert className="h-4 w-4 ml-2 text-red-500" />,
 };
 
@@ -47,10 +47,33 @@ export const MembersModal = () => {
             setLoadingId(memberId);
             const url = qs.stringifyUrl({
                 url: `/api/members/${memberId}`,
-                query: { serverId: server?.id, memberId },
+                query: {
+                    serverId: server?.id,
+                },
             });
 
             const response = await axios.patch(url, { role });
+
+            router.refresh();
+            onOpen('members', { server: response.data });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoadingId('');
+        }
+    };
+
+    const onKick = async (memberId: string) => {
+        try {
+            setLoadingId(memberId);
+            const url = qs.stringifyUrl({
+                url: `/api/members/${memberId}`,
+                query: {
+                    serverId: server?.id,
+                },
+            });
+
+            const response = await axios.delete(url);
 
             router.refresh();
             onOpen('members', { server: response.data });
@@ -118,7 +141,7 @@ export const MembersModal = () => {
                                                 </DropdownMenuPortal>
                                             </DropdownMenuSub>
                                             <DropdownMenuSeparator />
-                                            <DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => onKick(m.id)}>
                                                 <Gavel className="h-4 w-4 mr-2" />
                                                 Kick
                                             </DropdownMenuItem>
@@ -126,7 +149,7 @@ export const MembersModal = () => {
                                     </DropdownMenu>
                                 </div>
                             )}
-                            {loadingId === m.id && <Loader2 className="animate-spin text-zinc-500 w-4 h-4" />}
+                            {loadingId === m.id && <Loader2 className="animate-spin text-zinc-500 w-4 h-4 ml-auto" />}
                         </div>
                     ))}
                 </ScrollArea>
