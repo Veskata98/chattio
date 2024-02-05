@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import qs from 'query-string';
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
@@ -15,7 +16,7 @@ import { useForm } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/useModalStore';
 import { ChannelType } from '@prisma/client';
 
@@ -34,11 +35,12 @@ const formSchema = z.object({
 export const CreateChannelModal = () => {
     const { isOpen, onClose, type } = useModal();
     const router = useRouter();
+    const params = useParams();
 
     const isModalOpen = isOpen && type === 'createChannel';
 
     const form = useForm({
-        defaultValues: { name: '' },
+        defaultValues: { name: '', type: ChannelType.TEXT },
         resolver: zodResolver(formSchema),
     });
 
@@ -46,7 +48,14 @@ export const CreateChannelModal = () => {
 
     const submitHandler = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.post('/api/servers', values);
+            const url = qs.stringifyUrl({
+                url: `/api/channels`,
+                query: {
+                    serverId: params?.serverId,
+                },
+            });
+
+            await axios.post(url, values);
 
             form.reset();
             router.refresh();
@@ -92,19 +101,41 @@ export const CreateChannelModal = () => {
                                     </FormItem>
                                 )}
                             />
-                            {/* <FormField
+                            <FormField
                                 control={form.control}
                                 name="type"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <Select>
+                                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                                            Channel type
+                                        </FormLabel>
+                                        <Select
+                                            disabled={isLoading}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    className="bg-zinc-300/50 
+                                                    border-0 focus:ring-0 ring-offset-0
+                                                    text-black focus:ring-offset-0 
+                                                    capitalize outline-none"
+                                                >
+                                                    <SelectValue placeholder="Select a channel type" />
+                                                </SelectTrigger>
+                                            </FormControl>
                                             <SelectContent>
-                                                <SelectItem value={field.value}>1</SelectItem>
+                                                {Object.values(ChannelType).map((type) => (
+                                                    <SelectItem key={type} value={type} className="capitalize">
+                                                        {type.toLowerCase()}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
-                            /> */}
+                            />
                         </div>
                         <DialogFooter className="bg-gray-100 px-6 py-4">
                             <Button disabled={isLoading} variant="orange">
