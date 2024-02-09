@@ -5,10 +5,13 @@ import { currentProfile } from '@/lib/currentProfile';
 import { db } from '@/lib/db';
 import { ChannelType, MemberRole } from '@prisma/client';
 
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+
 import ServerHeader from './ServerHeader';
 import { ServerSearch } from './ServerSearch';
-
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ServerSection } from './ServerSection';
+import { ServerChannel } from './ServerChannel';
 
 type ServerSidebarProps = {
     serverId: string;
@@ -115,6 +118,24 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                         ]}
                     />
                 </div>
+                <Separator
+                    className="
+                    bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"
+                />
+                {!!textChannels?.length && (
+                    <div className="mb-2">
+                        <ServerSection
+                            label="Text Channels"
+                            sectionType="channels"
+                            channelType={ChannelType.TEXT}
+                            role={role}
+                        />
+
+                        {textChannels.map((channel) => {
+                            return <ServerChannel key={channel.id} channel={channel} />;
+                        })}
+                    </div>
+                )}
             </ScrollArea>
         </div>
     );
