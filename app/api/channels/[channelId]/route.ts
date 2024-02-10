@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 import { currentProfile } from '@/lib/currentProfile';
-
 import { MemberRole } from '@prisma/client';
 import { db } from '@/lib/db';
 

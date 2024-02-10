@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 
 import { currentProfile } from '@/lib/currentProfile';
 import { db } from '@/lib/db';
+
 import { ServerSidebar } from '@/components/server/ServerSidebar';
 
 type ServerIdLayoutProps = {

@@ -1,6 +1,7 @@
-import { currentProfile } from '@/lib/currentProfile';
-import { db } from '@/lib/db';
 import { NextResponse } from 'next/server';
+
+import { db } from '@/lib/db';
+import { currentProfile } from '@/lib/currentProfile';
 
 export const PATCH = async (req: Request, { params }: { params: { memberId: string } }) => {
     try {

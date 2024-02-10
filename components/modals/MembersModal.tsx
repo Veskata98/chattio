@@ -1,13 +1,12 @@
 'use client';
 
+import qs from 'query-string';
+import axios from 'axios';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
-
-import { Check, Gavel, Loader2, MoreVertical, Shield, ShieldAlert, ShieldCheck, ShieldQuestion } from 'lucide-react';
 import { useModal } from '@/hooks/useModalStore';
 
-import qs from 'query-string';
+import { Check, Gavel, Loader2, MoreVertical, Shield, ShieldAlert, ShieldCheck, ShieldQuestion } from 'lucide-react';
 
 import { ServerWithMembersWithProfiles } from '@/types';
 
