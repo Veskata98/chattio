@@ -1,6 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import axios from 'axios';
+import qs from 'query-string';
 
 import {
     Dialog,
@@ -13,24 +17,25 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { useModal } from '@/hooks/useModalStore';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
-export const LeaveServerModal = () => {
-    const { isOpen, onOpen, onClose, type, data } = useModal();
+export const DeleteChannelModal = () => {
+    const { isOpen, onClose, type, data } = useModal();
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const isModalOpen = isOpen && type === 'leaveServer';
-    const { server } = data;
+    const { server, channel } = data;
+
+    const isModalOpen = isOpen && type === 'deleteChannel';
 
     const onConfirm = async () => {
         try {
             setIsLoading(true);
-            await axios.patch(`/api/servers/${server?.id}/leave`);
+            const url = qs.stringifyUrl({ url: `/api/channels/${channel?.id}`, query: { serverId: server?.id } });
+
+            await axios.delete(url);
 
             onClose();
-            router.push('/');
+            router.push(`/servers/${server?.id}`);
             router.refresh();
         } catch (error) {
             console.log(error);
@@ -43,10 +48,12 @@ export const LeaveServerModal = () => {
         <Dialog open={isModalOpen} onOpenChange={onClose}>
             <DialogContent className="bg-white text-black p-0 overflow-hidden">
                 <DialogHeader className="pt-8 px-6">
-                    <DialogTitle className="text-center text-zinc-700">Leave Server</DialogTitle>
+                    <DialogTitle className="text-center text-zinc-700">Delete Channel</DialogTitle>
                     <DialogDescription className="text-center text-zinc-500">
-                        Are you sure you want to leave{' '}
-                        <span className="font-semibold text-orange-500">{server?.name}</span> ?
+                        Are you sure you want to do this?
+                        <br />
+                        <span className="font-semibold text-orange-500">#{channel?.name + ' '}</span>
+                        will be delete permanently!
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="bg-gray-100 px-6 py-4">

@@ -9,6 +9,8 @@ import { Channel, ChannelType, MemberRole, Server } from '@prisma/client';
 
 import { ActionTooltip } from '@/components/ActionTooltip';
 
+import { useModal } from '@/hooks/useModalStore';
+
 interface ServerChannelProps {
     channel: Channel;
     server: Server;
@@ -22,13 +24,14 @@ const iconMap = {
 };
 
 export const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
+    const { onOpen } = useModal();
     const router = useRouter();
     const params = useParams();
 
     const Icon = iconMap[channel.type];
 
     const onClick = () => {
-        return router.push(`/servers/${params?.serverId}/conversations/${channel.id}`);
+        // return router.push(`/servers/${params?.serverId}/conversations/${channel.id}`);
     };
 
     return (
@@ -62,19 +65,13 @@ export const ServerChannel = ({ channel, server, role }: ServerChannelProps) => 
                     </ActionTooltip>
                     <ActionTooltip label="Delete">
                         <Trash
+                            onClick={() => onOpen('deleteChannel', { server, channel })}
                             className="hidden group-hover:block w-4 h-4 text-zinc-500
                             hover:text-zinc-600 dark:text-zinc-400 transition
                             dark:hover:text-zinc-300"
                         />
                     </ActionTooltip>
                 </div>
-            )}
-
-            {channel.name === 'general' && (
-                <Lock
-                    className="ml-auto w-4 h-4 text-zinc-500
-                             dark:text-zinc-400"
-                />
             )}
         </button>
     );
