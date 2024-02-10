@@ -12,6 +12,7 @@ import ServerHeader from './ServerHeader';
 import { ServerSearch } from './ServerSearch';
 import { ServerSection } from './ServerSection';
 import { ServerChannel } from './ServerChannel';
+import { ServerMember } from './ServerMember';
 
 type ServerSidebarProps = {
     serverId: string;
@@ -130,10 +131,11 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                             channelType={ChannelType.TEXT}
                             role={role}
                         />
-
-                        {textChannels.map((channel) => {
-                            return <ServerChannel key={channel.id} channel={channel} role={role} server={server} />;
-                        })}
+                        <div className="space-y-[2px]">
+                            {textChannels.map((channel) => {
+                                return <ServerChannel key={channel.id} channel={channel} role={role} server={server} />;
+                            })}
+                        </div>
                     </div>
                 )}
                 {!!audioChannels?.length && (
@@ -144,10 +146,11 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                             channelType={ChannelType.AUDIO}
                             role={role}
                         />
-
-                        {audioChannels.map((channel) => {
-                            return <ServerChannel key={channel.id} channel={channel} role={role} server={server} />;
-                        })}
+                        <div className="space-y-[2px]">
+                            {audioChannels.map((channel) => {
+                                return <ServerChannel key={channel.id} channel={channel} role={role} server={server} />;
+                            })}
+                        </div>
                     </div>
                 )}
                 {!!videoChannels?.length && (
@@ -158,9 +161,19 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                             channelType={ChannelType.VIDEO}
                             role={role}
                         />
+                        <div className="space-y-[2px]">
+                            {videoChannels.map((channel) => {
+                                return <ServerChannel key={channel.id} channel={channel} role={role} server={server} />;
+                            })}
+                        </div>
+                    </div>
+                )}
+                {!!members?.length && (
+                    <div className="mb-2">
+                        <ServerSection label="Members" sectionType="members" role={role} server={server} />
 
-                        {videoChannels.map((channel) => {
-                            return <ServerChannel key={channel.id} channel={channel} role={role} server={server} />;
+                        {members.map((member) => {
+                            return <ServerMember key={member.id} member={member} server={server} />;
                         })}
                     </div>
                 )}
