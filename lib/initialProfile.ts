@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 
 export const InitialProfile = async () => {
     const user = await currentUser();
+    let displayName = '';
 
     if (!user) {
         return redirectToSignIn();
@@ -18,10 +19,16 @@ export const InitialProfile = async () => {
         return profile;
     }
 
+    if (user.username) {
+        displayName = user.username;
+    } else {
+        displayName = `${user.firstName} ${user.lastName}`;
+    }
+
     const newProfile = await db.profile.create({
         data: {
             userId: user.id,
-            name: `${user.firstName} ${user.lastName}`,
+            name: displayName,
             email: user.emailAddresses[0].emailAddress,
             imageUrl: user.imageUrl,
         },
