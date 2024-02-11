@@ -4,7 +4,7 @@ import axios from 'axios';
 import qs from 'query-string';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -31,39 +31,38 @@ const formSchema = z.object({
     type: z.nativeEnum(ChannelType),
 });
 
-export const CreateChannelModal = () => {
+export const EditChannelModal = () => {
     const { isOpen, onClose, type, data } = useModal();
-    const router = useRouter();
-    const params = useParams();
-    const { channelType } = data;
+    const { server, channel } = data;
 
-    const isModalOpen = isOpen && type === 'createChannel';
+    const router = useRouter();
+
+    const isModalOpen = isOpen && type === 'editChannel';
 
     const form = useForm({
-        defaultValues: { name: '', type: channelType || ChannelType.TEXT },
+        defaultValues: { name: '', type: channel?.type || ChannelType.TEXT },
         resolver: zodResolver(formSchema),
     });
 
     useEffect(() => {
-        if (channelType) {
-            form.setValue('type', channelType);
-        } else {
-            form.setValue('type', ChannelType.TEXT);
+        if (channel) {
+            form.setValue('type', channel.type);
+            form.setValue('name', channel.name);
         }
-    }, [channelType, form]);
+    }, [channel, form, isModalOpen]);
 
     const isLoading = form.formState.isSubmitting;
 
     const submitHandler = async (values: z.infer<typeof formSchema>) => {
         try {
             const url = qs.stringifyUrl({
-                url: `/api/channels`,
+                url: `/api/channels/${channel?.id}`,
                 query: {
-                    serverId: params?.serverId,
+                    serverId: server?.id,
                 },
             });
 
-            await axios.post(url, values);
+            await axios.patch(url, values);
 
             onClose();
             form.reset();
@@ -82,7 +81,7 @@ export const CreateChannelModal = () => {
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className="bg-white text-black p-0 overflow-hidden">
                 <DialogHeader className="pt-8 px-6">
-                    <DialogTitle className="text-center text-zinc-700">Create Channel</DialogTitle>
+                    <DialogTitle className="text-center text-zinc-700">Edit Channel</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8">
@@ -147,7 +146,7 @@ export const CreateChannelModal = () => {
                         </div>
                         <DialogFooter className="bg-gray-100 px-6 py-4">
                             <Button disabled={isLoading} variant="orange">
-                                Create
+                                Save
                             </Button>
                         </DialogFooter>
                     </form>
