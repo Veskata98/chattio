@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/useModalStore';
 
-import { Check, Gavel, Loader2, MoreVertical, Shield, ShieldAlert, ShieldCheck, ShieldQuestion } from 'lucide-react';
+import { Check, Crown, Gavel, Loader2, MoreVertical, Shield, ShieldCheck, ShieldQuestion } from 'lucide-react';
 
 import { ServerWithMembersWithProfiles } from '@/types';
 
@@ -30,7 +30,7 @@ import { MemberRole } from '@prisma/client';
 const roleIconMap = {
     GUEST: null,
     MODERATOR: <ShieldCheck className="h-4 w-4 ml-2 text-zinc-500" />,
-    ADMIN: <ShieldAlert className="h-4 w-4 ml-2 text-red-500" />,
+    ADMIN: <Crown className="h-4 w-4 ml-2 text-red-500" />,
 };
 
 export const MembersModal = () => {
@@ -92,7 +92,7 @@ export const MembersModal = () => {
                         {server?.members?.length} members
                     </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="mt-8 max-h-[420px] pr-6">
+                <ScrollArea className="mt-8 max-h-[420px] bg-zinc-100 rounded-md p-2">
                     {server?.members?.map((m) => (
                         <div key={m.id} className="flex items-center gap-x-2 mb-6">
                             <UserAvatar src={m.profile.imageUrl} />

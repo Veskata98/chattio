@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 
-import { ShieldAlert, ShieldCheck } from 'lucide-react';
+import { Crown, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 import { Member, MemberRole, Profile, Server } from '@prisma/client';
@@ -16,7 +16,7 @@ interface ServerMemberProps {
 const roleIconMap = {
     [MemberRole.GUEST]: null,
     [MemberRole.MODERATOR]: <ShieldCheck className="h-4 w-4 ml-2 text-orange-500" />,
-    [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 ml-2 text-red-500" />,
+    [MemberRole.ADMIN]: <Crown className="h-4 w-4 ml-2 text-red-500" />,
 };
 
 export const ServerMember = ({ member, server }: ServerMemberProps) => {
