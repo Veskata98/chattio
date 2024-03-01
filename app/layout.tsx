@@ -8,6 +8,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { ModalProvider } from '@/components/providers/ModalProvider';
+import { SocketProvider } from '@/components/providers/SocketProvider';
 
 const font = Roboto({ weight: '500', style: 'normal', subsets: ['latin'] });
 
@@ -27,8 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         enableSystem={false}
                         storageKey="discord-theme"
                     >
-                        <ModalProvider />
-                        {children}
+                        <SocketProvider>
+                            <ModalProvider />
+                            {children}
+                        </SocketProvider>
                     </ThemeProvider>
                 </body>
             </html>
