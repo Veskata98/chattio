@@ -28,7 +28,7 @@ const iconMap = {
 const roleIcoMap = {
     [MemberRole.GUEST]: null,
     [MemberRole.MODERATOR]: <ShieldCheck className="mr-2 w-4 h-4 text-orange-500" />,
-    [MemberRole.ADMIN]: <Crown className="mr-2 w-4 h-4 text-red-500" />,
+    [MemberRole.ADMIN]: <Crown className="mr-2 w-4 h-4 text-yellow-500" />,
 };
 
 export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {

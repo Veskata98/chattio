@@ -30,7 +30,7 @@ import { MemberRole } from '@prisma/client';
 const roleIconMap = {
     GUEST: null,
     MODERATOR: <ShieldCheck className="h-4 w-4 ml-2 text-zinc-500" />,
-    ADMIN: <Crown className="h-4 w-4 ml-2 text-red-500" />,
+    ADMIN: <Crown className="h-4 w-4 ml-2 text-yellow-500" />,
 };
 
 export const MembersModal = () => {
