@@ -21,6 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useModal } from '@/hooks/useModalStore';
 
 interface ChatItemProps {
     id: string;
@@ -59,6 +60,7 @@ export const ChatItem = ({
     socketUrl,
     socketQuery,
 }: ChatItemProps) => {
+    const { onOpen } = useModal();
     const [isEditing, setIsEditing] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -222,7 +224,12 @@ export const ChatItem = ({
                         </ActionTooltip>
                     )}
                     <ActionTooltip label="Delete">
-                        <Trash className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+                        <Trash
+                            onClick={() =>
+                                onOpen('deleteMessage', { apiUrl: `${socketUrl}/${id}`, query: socketQuery })
+                            }
+                            className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+                        />
                     </ActionTooltip>
                 </div>
             )}
