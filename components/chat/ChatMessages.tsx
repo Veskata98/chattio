@@ -1,4 +1,5 @@
 'use client';
+
 import { Fragment, useRef, ElementRef } from 'react';
 import { Loader2, ServerCrash } from 'lucide-react';
 import { useChatQuery } from '@/hooks/useChatQuery';
