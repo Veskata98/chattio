@@ -27,40 +27,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
                 id: conversationId as string,
                 OR: [
                     {
-                        memberOne: {
-                            profileId: profile.id,
+                        profileOne: {
+                            id: profile.id,
                         },
                     },
                     {
-                        memberTwo: {
-                            profileId: profile.id,
+                        profileTwo: {
+                            id: profile.id,
                         },
                     },
                 ],
             },
             include: {
-                memberOne: {
-                    include: {
-                        profile: true,
-                    },
-                },
-                memberTwo: {
-                    include: {
-                        profile: true,
-                    },
-                },
+                profileOne: true,
+                profileTwo: true,
             },
         });
 
         if (!conversation) {
             return res.status(404).json({ error: 'Conversation not found' });
-        }
-
-        const member =
-            conversation?.memberOne.profileId === profile.id ? conversation.memberOne : conversation?.memberTwo;
-
-        if (!member) {
-            return res.status(404).json({ error: 'Member not found' });
         }
 
         let directMessage = await db.directMessage.findFirst({
@@ -69,11 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
                 conversationId: conversationId as string,
             },
             include: {
-                member: {
-                    include: {
-                        profile: true,
-                    },
-                },
+                profile: true,
             },
         });
 
@@ -81,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
             return res.status(404).json({ error: 'Message not found' });
         }
 
-        const isMessageOwner = directMessage.member.profileId === profile.id;
+        const isMessageOwner = directMessage.profile.id === profile.id;
 
         if (!isMessageOwner) {
             return res.status(401).json({ error: 'Unauthorized' });
@@ -98,11 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
                     deleted: true,
                 },
                 include: {
-                    member: {
-                        include: {
-                            profile: true,
-                        },
-                    },
+                    profile: true,
                 },
             });
         }
@@ -120,11 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
                     content,
                 },
                 include: {
-                    member: {
-                        include: {
-                            profile: true,
-                        },
-                    },
+                    profile: true,
                 },
             });
         }

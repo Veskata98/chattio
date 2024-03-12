@@ -46,7 +46,7 @@ export const InitialModal = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const isLoading = form.formState.isLoading;
+    const isLoading = form.formState.isSubmitting;
 
     const submitHandler = async (values: z.infer<typeof formSchema>) => {
         try {

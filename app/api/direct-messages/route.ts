@@ -9,14 +9,15 @@ const MESSAGES_BATCH = 10;
 export async function GET(req: Request) {
     try {
         const profile = await currentProfile();
-        const { searchParams } = new URL(req.url);
-
-        const cursor = searchParams.get('cursor');
-        const conversationId = searchParams.get('conversationId');
 
         if (!profile) {
             return new NextResponse('Unauthorized', { status: 401 });
         }
+
+        const { searchParams } = new URL(req.url);
+
+        const cursor = searchParams.get('cursor');
+        const conversationId = searchParams.get('conversationId');
 
         if (!conversationId) {
             return new NextResponse('Conversation ID missing', { status: 400 });
@@ -35,11 +36,7 @@ export async function GET(req: Request) {
                     conversationId,
                 },
                 include: {
-                    member: {
-                        include: {
-                            profile: true,
-                        },
-                    },
+                    profile: true,
                 },
                 orderBy: {
                     createdAt: 'desc',
@@ -52,11 +49,7 @@ export async function GET(req: Request) {
                     conversationId,
                 },
                 include: {
-                    member: {
-                        include: {
-                            profile: true,
-                        },
-                    },
+                    profile: true,
                 },
                 orderBy: {
                     createdAt: 'desc',

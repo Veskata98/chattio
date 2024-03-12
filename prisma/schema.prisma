@@ -15,9 +15,13 @@ model Profile {
   imageUrl String @db.Text
   email    String @db.Text
 
-  servers  Server[]
-  members  Member[]
-  channels Channel[]
+  servers        Server[]
+  members        Member[]
+  channels       Channel[]
+  directMessages DirectMessage[]
+
+  conversationsInitiated Conversation[] @relation("ProfileOne")
+  conversationsReceived  Conversation[] @relation("ProfileTwo")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,14 +61,10 @@ model Member {
   serverId String
   server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
-  messages       Message[]
-  directMessages DirectMessage[]
+  messages Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  conversationsInitiated Conversation[] @relation("MemberOne")
-  conversationsReceived  Conversation[] @relation("MemberTwo")
 
   @@index([profileId])
   @@index([serverId])
@@ -120,16 +120,19 @@ model Message {
 model Conversation {
   id String @id @default(uuid())
 
-  memberOneId String
-  memberOne   Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+  profileOneId String
+  profileOne   Profile @relation("ProfileOne", fields: [profileOneId], references: [id], onDelete: Cascade)
 
-  memberTwoId String
-  memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+  profileTwoId String
+  profileTwo   Profile @relation("ProfileTwo", fields: [profileTwoId], references: [id], onDelete: Cascade)
 
   directMessages DirectMessage[]
 
-  @@unique([memberOneId, memberTwoId])
-  @@index([memberTwoId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([profileOneId, profileTwoId])
+  @@index([profileTwoId])
 }
 
 model DirectMessage {
@@ -137,8 +140,8 @@ model DirectMessage {
   content String  @db.Text
   fileUrl String? @db.Text
 
-  memberId String
-  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
@@ -148,6 +151,6 @@ model DirectMessage {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([memberId])
+  @@index([profileId])
   @@index([conversationId])
 }

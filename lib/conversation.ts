@@ -1,22 +1,14 @@
 import { db } from '@/lib/db';
 
-const findConversation = async (memberOneId: string, memberTwoId: string) => {
+const findConversation = async (profileOneId: string, profileTwoId: string) => {
     try {
         return await db.conversation.findFirst({
             where: {
-                AND: [{ memberOneId, memberTwoId }],
+                AND: [{ profileOneId, profileTwoId }],
             },
             include: {
-                memberOne: {
-                    include: {
-                        profile: true,
-                    },
-                },
-                memberTwo: {
-                    include: {
-                        profile: true,
-                    },
-                },
+                profileOne: true,
+                profileTwo: true,
             },
         });
     } catch (error) {
@@ -24,24 +16,16 @@ const findConversation = async (memberOneId: string, memberTwoId: string) => {
     }
 };
 
-const createNewConversation = async (memberOneId: string, memberTwoId: string) => {
+const createNewConversation = async (profileOneId: string, profileTwoId: string) => {
     try {
         return await db.conversation.create({
             data: {
-                memberOneId,
-                memberTwoId,
+                profileOneId,
+                profileTwoId,
             },
             include: {
-                memberOne: {
-                    include: {
-                        profile: true,
-                    },
-                },
-                memberTwo: {
-                    include: {
-                        profile: true,
-                    },
-                },
+                profileOne: true,
+                profileTwo: true,
             },
         });
     } catch (error) {
@@ -49,12 +33,12 @@ const createNewConversation = async (memberOneId: string, memberTwoId: string) =
     }
 };
 
-export const getOrCreateConversation = async (memberOneId: string, memberTwoId: string) => {
+export const getOrCreateConversation = async (profileOneId: string, profileTwoId: string) => {
     let conversation =
-        (await findConversation(memberOneId, memberTwoId)) || (await findConversation(memberTwoId, memberOneId));
+        (await findConversation(profileOneId, profileTwoId)) || (await findConversation(profileTwoId, profileOneId));
 
     if (!conversation) {
-        conversation = await createNewConversation(memberOneId, memberTwoId);
+        conversation = await createNewConversation(profileOneId, profileTwoId);
     }
 
     return conversation;

@@ -8,10 +8,11 @@ import { Separator } from '@/components/ui/separator';
 import { ModeToggle } from '@/components/ModeToggle';
 
 import { NavigationAction } from '@/components/navigation/NavigationAction';
-import { NavitagationItem } from '@/components/navigation/NavitagationItem';
+import { NavigationItem } from '@/components/navigation/NavigationItem';
 
 import { currentProfile } from '@/lib/currentProfile';
 import { db } from '@/lib/db';
+import { HomeButton } from './HomeButton';
 
 export const NavigationSidebar = async () => {
     const profile = await currentProfile();
@@ -26,15 +27,16 @@ export const NavigationSidebar = async () => {
 
     return (
         <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
-            <NavigationAction />
-            <Separator className="h-[2px] rounded-md bg-zinc-300 w-10 dark:bg-zinc-700 mx-auto" />
+            <HomeButton />
             <ScrollArea className="flex-1 w-full">
                 {servers.map((server) => (
                     <div key={server.id} className="mb-4">
-                        <NavitagationItem id={server.id} name={server.name} imageUrl={server.imageUrl} />
+                        <NavigationItem id={server.id} name={server.name} imageUrl={server.imageUrl} />
                     </div>
                 ))}
             </ScrollArea>
+            <Separator className="h-[2px] rounded-md bg-zinc-300 w-10 dark:bg-zinc-700 mx-auto" />
+            <NavigationAction />
             <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
                 <ModeToggle />
                 <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: 'h-[48px] w-[48px]' } }} />

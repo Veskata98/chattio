@@ -13,7 +13,7 @@ interface NavigationItemProps {
     imageUrl: string;
 }
 
-export const NavitagationItem = ({ id, name, imageUrl }: NavigationItemProps) => {
+export const NavigationItem = ({ id, name, imageUrl }: NavigationItemProps) => {
     const router = useRouter();
     const params = useParams();
 

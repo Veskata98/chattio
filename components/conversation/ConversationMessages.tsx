@@ -9,45 +9,39 @@ import { useChatScroll } from '@/hooks/useChatScroll';
 
 import { format } from 'date-fns';
 
-import { Member, Message, Profile } from '@prisma/client';
+import { Message, Profile } from '@prisma/client';
 
-import { ChatWelcome } from './ChatWelcome';
-import { ChatItem } from './ChatItem';
+import { ConversationWelcome } from './ConversationWelcome';
+import { ConversationItem } from './ConversationItem';
 
 const DATE_FORMAT = 'd MMM yyyy, HH:mm';
 
-type MessageWithMemberWithProfile = Message & {
-    member: Member & {
-        profile: Profile;
-    };
+type MessageWithProfile = Message & {
+    profile: Profile;
 };
 
-interface ChatMessagesProps {
+interface ConversationMessagesProps {
+    currentProfile: Profile;
+    conversationId: string;
     name: string;
-    member: Member | null;
-    chatId: string;
     apiUrl: string;
     socketUrl: string;
     socketQuery: Record<string, string>;
-    paramKey: 'channelId' | 'conversationId';
     paramValue: string;
-    type: 'channel' | 'conversation';
 }
 
-export const ChatMessages = ({
+export const ConversationMessages = ({
+    currentProfile,
+    conversationId,
     name,
-    member,
-    chatId,
     apiUrl,
     socketUrl,
     socketQuery,
-    paramKey,
     paramValue,
-    type,
-}: ChatMessagesProps) => {
-    const queryKey = `chat:${chatId}`;
-    const addKey = `chat:${chatId}:messages`;
-    const updateKey = `chat:${chatId}:messages:update`;
+}: ConversationMessagesProps) => {
+    const queryKey = `chat:${conversationId}`;
+    const addKey = `chat:${conversationId}:messages`;
+    const updateKey = `chat:${conversationId}:messages:update`;
 
     const chatRef = useRef<ElementRef<'div'>>(null);
     const bottomRef = useRef<ElementRef<'div'>>(null);
@@ -55,9 +49,10 @@ export const ChatMessages = ({
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useChatQuery({
         queryKey,
         apiUrl,
-        paramKey,
+        paramKey: 'conversationId',
         paramValue,
     });
+
     useChatSocket({ addKey, updateKey, queryKey });
     useChatScroll({
         chatRef,
@@ -88,7 +83,7 @@ export const ChatMessages = ({
     return (
         <div ref={chatRef} className="flex-1 flex flex-col py-4 overflow-y-auto">
             {!hasNextPage && <div className="flex-1" />}
-            {!hasNextPage && <ChatWelcome type={type} name={name} />}
+            {!hasNextPage && <ConversationWelcome name={name} />}
 
             {hasNextPage && (
                 <div className="flex justify-center">
@@ -110,13 +105,13 @@ export const ChatMessages = ({
             <div className="flex flex-col-reverse mt-auto">
                 {data?.pages?.map((group, i) => (
                     <Fragment key={i}>
-                        {group.items.map((message: MessageWithMemberWithProfile) => (
-                            <ChatItem
+                        {group.items.map((message: MessageWithProfile) => (
+                            <ConversationItem
                                 key={message.id}
+                                profile={message.profile}
+                                currentProfile={currentProfile}
                                 id={message.id}
                                 content={message.content}
-                                currentMember={member!}
-                                member={message.member}
                                 deleted={message.deleted}
                                 fileUrl={message.fileUrl}
                                 timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
