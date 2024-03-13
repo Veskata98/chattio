@@ -6,13 +6,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 
 import { ModeToggle } from '@/components/ModeToggle';
+import { HomeButton } from '@/components/HomeButton';
 
 import { NavigationAction } from '@/components/navigation/NavigationAction';
 import { NavigationItem } from '@/components/navigation/NavigationItem';
 
 import { currentProfile } from '@/lib/currentProfile';
 import { db } from '@/lib/db';
-import { HomeButton } from './HomeButton';
 
 export const NavigationSidebar = async () => {
     const profile = await currentProfile();

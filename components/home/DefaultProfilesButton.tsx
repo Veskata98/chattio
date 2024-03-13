@@ -4,18 +4,23 @@ import { Profile } from '@prisma/client';
 import { UserAvatar } from '../UserAvatar';
 import { cn } from '@/lib/utils';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
-interface HomeProfilesButtonProps {
+interface DefaultProfilesButtonProps {
     profile: Profile;
 }
 
-export const HomeProfilesButton = ({ profile }: HomeProfilesButtonProps) => {
+export const DefaultProfilesButton = ({ profile }: DefaultProfilesButtonProps) => {
     const params = useParams();
+    const router = useRouter();
+
+    const onClick = () => {
+        return router.push(`/conversations/${profile.id}`);
+    };
 
     return (
         <button
-            onClick={() => {}}
+            onClick={onClick}
             key={profile.id}
             className={cn(
                 'group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zic-700/10 dark:hover:bg-zinc-700/50 transition mb-1',

@@ -5,11 +5,11 @@ import { db } from '@/lib/db';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import HomeHeader from './HomeHeader';
 
-import { HomeProfilesButton } from './HomeProfilesButton';
+import DefaultHeader from './DefaultHeader';
+import { DefaultProfilesButton } from './DefaultProfilesButton';
 
-export const HomeSidebar = async () => {
+export const DefaultSidebar = async () => {
     const profile = await currentProfile();
 
     if (!profile) {
@@ -35,8 +35,17 @@ export const HomeSidebar = async () => {
             className="flex flex-col h-full w-full 
             text-primary dark:bg-[#2B2D31] bg-[#F2F3F5]"
         >
-            <HomeHeader />
-            <p>Direct messages</p>
+            <Separator
+                className="
+                    bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"
+            />
+            <DefaultHeader />
+            <p
+                className="mt-4 ml-2 text-xs uppercase font-semibold text-zinc-500
+                dark:text-zinc-400"
+            >
+                Direct messages
+            </p>
             <Separator
                 className="
                     bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"
@@ -45,7 +54,7 @@ export const HomeSidebar = async () => {
                 <div>
                     {conversations.map((c) => {
                         const profileToShow = c.profileOneId === profile.id ? c.profileTwo : c.profileOne;
-                        return <HomeProfilesButton key={c.id} profile={profileToShow} />;
+                        return <DefaultProfilesButton key={c.id} profile={profileToShow} />;
                     })}
                 </div>
             </ScrollArea>
