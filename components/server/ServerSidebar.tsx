@@ -67,7 +67,8 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
     const audioChannels = server?.channels.filter((c) => c.type === ChannelType.AUDIO);
     const videoChannels = server?.channels.filter((c) => c.type === ChannelType.VIDEO);
 
-    const members = server?.members.filter((m) => m.profileId !== profile.id);
+    // const members = server?.members.filter((m) => m.profileId !== profile.id);
+    const members = server?.members;
 
     const role = server.members.find((m) => m.profileId === profile.id)?.role;
 
@@ -174,7 +175,14 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                         <ServerSection label="Members" sectionType="members" role={role} server={server} />
 
                         {members.map((member) => {
-                            return <ServerMember key={member.id} member={member} server={server} />;
+                            return (
+                                <ServerMember
+                                    key={member.id}
+                                    member={member}
+                                    server={server}
+                                    disabled={member.profileId === profile.id}
+                                />
+                            );
                         })}
                     </div>
                 )}

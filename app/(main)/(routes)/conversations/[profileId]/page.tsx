@@ -22,6 +22,10 @@ export default async function ConversationIdPage({ params }: ConversationIdPageP
         return redirectToSignIn();
     }
 
+    if (params.profileId === profile.id) {
+        return redirect('/');
+    }
+
     const otherProfile = await db.profile.findFirst({
         where: {
             id: params.profileId,

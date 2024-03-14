@@ -105,8 +105,6 @@ export const ConversationItem = ({
 
     const fileType = fileUrl?.split('.').pop();
 
-    console.log(currentProfile, profile);
-
     const isOwner = currentProfile.id === profile.id;
 
     const canDeleteMessage = !deleted && isOwner;

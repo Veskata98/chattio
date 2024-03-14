@@ -11,6 +11,7 @@ import { UserAvatar } from '@/components/UserAvatar';
 interface ServerMemberProps {
     member: Member & { profile: Profile };
     server: Server;
+    disabled: boolean;
 }
 
 const roleIconMap = {
@@ -19,7 +20,7 @@ const roleIconMap = {
     [MemberRole.ADMIN]: <Crown className="h-4 w-4 ml-2 text-yellow-500" />,
 };
 
-export const ServerMember = ({ member, server }: ServerMemberProps) => {
+export const ServerMember = ({ member, server, disabled }: ServerMemberProps) => {
     const router = useRouter();
     const params = useParams();
 
@@ -32,6 +33,7 @@ export const ServerMember = ({ member, server }: ServerMemberProps) => {
     return (
         <button
             onClick={onClick}
+            disabled={disabled}
             className={cn(
                 'group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zic-700/10 dark:hover:bg-zinc-700/50 transition mb-1',
                 params?.memberId === member.id && 'bg-zinc-700/20 dark:bg-zinc-700'

@@ -23,12 +23,13 @@ export const DefaultSidebar = async () => {
         include: {
             profileOne: true,
             profileTwo: true,
+            directMessages: {
+                orderBy: {
+                    updatedAt: 'asc',
+                },
+            },
         },
     });
-
-    if (!conversations || conversations.length === 0) {
-        <p>Invite some friends to start chat.</p>;
-    }
 
     return (
         <div
