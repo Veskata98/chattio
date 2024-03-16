@@ -47,7 +47,7 @@ export const MessageFileModal = () => {
         onClose();
     };
 
-    const isLoading = form.formState.isLoading;
+    const isLoading = form.formState.isSubmitting;
 
     const submitHandler = async (values: z.infer<typeof formSchema>) => {
         try {

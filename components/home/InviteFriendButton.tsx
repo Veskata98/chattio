@@ -6,7 +6,7 @@ export const InviteFriendButton = () => {
 
     return (
         <button
-            onClick={() => onOpen('joinServer')}
+            onClick={() => onOpen('inviteFriend')}
             className="text-zinc-500 hover:text-zinc-600
                 dark:text-zinc-400 dark:hover:text-zinc-300
                 transition w-full flex justify-center items-center gap-x-2 py-3 

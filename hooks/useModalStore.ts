@@ -13,7 +13,8 @@ export type ModalType =
     | 'editChannel'
     | 'messageFile'
     | 'deleteMessage'
-    | 'joinServer';
+    | 'joinServer'
+    | 'inviteFriend';
 
 interface ModalData {
     server?: Server;
