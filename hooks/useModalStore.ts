@@ -14,7 +14,7 @@ export type ModalType =
     | 'messageFile'
     | 'deleteMessage'
     | 'joinServer'
-    | 'inviteFriend';
+    | 'findUser';
 
 interface ModalData {
     server?: Server;
