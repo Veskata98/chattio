@@ -31,6 +31,13 @@ export const DefaultSidebar = async () => {
         },
     });
 
+    //Order chats by latest message sent or received
+    conversations.sort((a, b) => {
+        const latestDirectMessageA = a.directMessages[a.directMessages.length - 1]?.updatedAt || new Date(0);
+        const latestDirectMessageB = b.directMessages[b.directMessages.length - 1]?.updatedAt || new Date(0);
+        return latestDirectMessageB.getTime() - latestDirectMessageA.getTime();
+    });
+
     return (
         <div
             className="flex flex-col h-full w-full 
