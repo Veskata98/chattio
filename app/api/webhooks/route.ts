@@ -2,9 +2,6 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 
-import { revalidatePath } from 'next/cache';
-
-import { currentProfile } from '@/lib/currentProfile';
 import { db } from '@/lib/db';
 
 export async function POST(req: Request) {
@@ -77,7 +74,6 @@ export async function POST(req: Request) {
             },
         });
 
-        revalidatePath('/');
         return new Response('', { status: 200 });
     } catch (error) {
         return new Response('Internal Error', {
