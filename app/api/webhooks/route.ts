@@ -62,12 +62,10 @@ export async function POST(req: Request) {
     const newEmail = bodyObject?.data?.email_addresses[0]?.email_address as string;
     const newImageUrl = bodyObject?.data?.image_url as string;
 
-    console.log(bodyObject, profileId, newName, newEmail, newImageUrl);
-
     try {
         await db.profile.update({
             where: {
-                id: profileId,
+                userId: profileId,
             },
             data: {
                 name: newName,
@@ -79,7 +77,6 @@ export async function POST(req: Request) {
         return new Response('', { status: 200 });
     } catch (error) {
         console.log(error);
-
         return new Response('Internal Error', {
             status: 500,
         });

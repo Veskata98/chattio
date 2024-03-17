@@ -1,46 +1,11 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-
 import { UserSearch } from 'lucide-react';
 
-import {
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from '@/components/ui/command';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import axios from 'axios';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Profile } from '@prisma/client';
 import { useModal } from '@/hooks/useModalStore';
-
-interface FriendSearchButtonProps {
-    data: {
-        label: string;
-        type: 'channel' | 'member';
-        data:
-            | {
-                  icon: React.ReactNode;
-                  name: string;
-                  id: string;
-              }[]
-            | undefined;
-    }[];
-}
 
 export const FindUserButton = () => {
     const { onOpen } = useModal();
-
-    const [open, setOpen] = useState(false);
-    const [data, setData] = useState<Profile[]>([]);
-    const router = useRouter();
-    const params = useParams();
 
     return (
         <>
