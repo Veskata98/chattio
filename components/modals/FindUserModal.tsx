@@ -17,7 +17,6 @@ export const FindUserModal = () => {
     const router = useRouter();
 
     const { isOpen, onClose, type } = useModal();
-
     const isModalOpen = isOpen && type === 'findUser';
 
     const onChange = async (username: string) => {
@@ -50,6 +49,7 @@ export const FindUserModal = () => {
                                 onClick={() => {
                                     router.push(`/conversations/${user.id}`);
                                     onClose();
+                                    setUsers([]);
                                 }}
                             >
                                 <UserAvatar src={user.imageUrl} />

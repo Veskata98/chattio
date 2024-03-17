@@ -83,7 +83,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
         const isMessageOwner = message.memberId === member.id;
         const isAdmin = member.role === MemberRole.ADMIN;
         const isModerator = member.role === MemberRole.MODERATOR;
-        const canModify = isMessageOwner || isAdmin || isModerator;
+
+        let canModify = isMessageOwner || isAdmin || isModerator;
+        if (isModerator && message.member.role === MemberRole.ADMIN) {
+            canModify = false;
+        }
 
         if (!canModify) {
             return res.status(401).json({ error: 'Unauthorized' });

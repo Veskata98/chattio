@@ -7,26 +7,31 @@ import { Profile } from '@prisma/client';
 import { db } from '@/lib/db';
 
 export const findUserAction = async (username: string): Promise<Profile[] | []> => {
-    const profile = await currentProfile();
+    try {
+        const profile = await currentProfile();
 
-    if (!profile) {
-        return redirectToSignIn();
-    }
+        if (!profile) {
+            return redirectToSignIn();
+        }
 
-    if (username === '' || !username) {
-        return [];
-    }
+        if (username === '' || !username) {
+            return [];
+        }
 
-    const users = await db.profile.findMany({
-        where: {
-            name: {
-                startsWith: username,
-                not: {
-                    equals: profile.name,
+        const users = await db.profile.findMany({
+            where: {
+                name: {
+                    startsWith: username,
+                    not: {
+                        equals: profile.name,
+                    },
                 },
             },
-        },
-    });
+        });
 
-    return users;
+        return users;
+    } catch (error) {
+        console.log('[MESSAGES_GET]', error);
+        return [];
+    }
 };

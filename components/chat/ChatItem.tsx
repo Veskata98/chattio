@@ -125,7 +125,11 @@ export const ChatItem = ({
     const isModerator = currentMember.role === MemberRole.MODERATOR;
     const isOwner = currentMember.id === member.id;
 
-    const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
+    let canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
+    if (isModerator && member.role === MemberRole.ADMIN) {
+        canDeleteMessage = false;
+    }
+
     const canEditMessage = !deleted && isOwner && !fileUrl;
 
     const isPDF = fileType === 'pdf' && fileUrl;
