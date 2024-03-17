@@ -9,8 +9,8 @@ import qs from 'query-string';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-import { Crown, Edit, FileIcon, ShieldCheck, Trash } from 'lucide-react';
-import { Member, MemberRole, Profile } from '@prisma/client';
+import { Edit, FileIcon, Trash } from 'lucide-react';
+import { Profile } from '@prisma/client';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -56,9 +56,6 @@ export const ConversationItem = ({
 }: ConversationItemProps) => {
     const { onOpen } = useModal();
     const [isEditing, setIsEditing] = useState(false);
-
-    const params = useParams();
-    const router = useRouter();
 
     useEffect(() => {
         const handleKeyDown = (e: any) => {

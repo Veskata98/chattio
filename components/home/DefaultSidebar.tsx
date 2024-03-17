@@ -40,7 +40,7 @@ export const DefaultSidebar = async () => {
 
     return (
         <div
-            className="flex flex-col h-full w-full 
+            className="flex flex-col h-full w-3/5 md:w-full
             text-primary dark:bg-[#2B2D31] bg-[#F2F3F5]"
         >
             <Separator
