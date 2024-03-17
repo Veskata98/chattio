@@ -59,22 +59,16 @@ export async function POST(req: Request) {
 
     const bodyObject = JSON.parse(body);
 
+    const profileId = bodyObject?.data?.id;
+
     const newName = bodyObject?.data?.username;
     const newEmail = bodyObject?.data?.email_addresses[0]?.email_address;
     const newImageUrl = bodyObject?.data?.image_url;
 
-    const profile = await currentProfile();
-
-    if (!profile) {
-        return new Response('Unauthorized', {
-            status: 401,
-        });
-    }
-
     try {
         await db.profile.update({
             where: {
-                id: profile.id,
+                id: profileId,
             },
             data: {
                 name: newName,
