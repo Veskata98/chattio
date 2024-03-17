@@ -2,31 +2,27 @@
 
 import { useState } from 'react';
 import { useModal } from '@/hooks/useModalStore';
+import { useRouter } from 'next/navigation';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useRouter } from 'next/navigation';
+import { UserAvatar } from '@/components/UserAvatar';
+
 import { Profile } from '@prisma/client';
-import axios from 'axios';
-import { UserAvatar } from '../UserAvatar';
+
+import { findUserAction } from '@/actions/action';
 
 export const FindUserModal = () => {
     const [users, setUsers] = useState<Profile[]>([]);
+    const router = useRouter();
 
     const { isOpen, onClose, type } = useModal();
-
-    const router = useRouter();
 
     const isModalOpen = isOpen && type === 'findUser';
 
     const onChange = async (username: string) => {
-        if (username === '' || !username) {
-            setUsers([]);
-            return;
-        }
-
-        const response = await axios.get(`/api/users?username=${username}`);
-        setUsers(response.data);
+        const users = await findUserAction(username);
+        setUsers(users);
     };
 
     return (
