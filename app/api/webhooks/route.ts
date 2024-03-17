@@ -56,11 +56,13 @@ export async function POST(req: Request) {
 
     const bodyObject = JSON.parse(body);
 
-    const profileId = bodyObject?.data?.id;
+    const profileId = bodyObject?.data?.id as string;
 
-    const newName = bodyObject?.data?.username;
-    const newEmail = bodyObject?.data?.email_addresses[0]?.email_address;
-    const newImageUrl = bodyObject?.data?.image_url;
+    const newName = bodyObject?.data?.username as string;
+    const newEmail = bodyObject?.data?.email_addresses[0]?.email_address as string;
+    const newImageUrl = bodyObject?.data?.image_url as string;
+
+    console.log(bodyObject, profileId, newName, newEmail, newImageUrl);
 
     try {
         await db.profile.update({
