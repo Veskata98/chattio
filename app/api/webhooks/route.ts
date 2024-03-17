@@ -2,8 +2,12 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 
+import { revalidatePath } from 'next/cache';
+
+import { currentProfile } from '@/lib/currentProfile';
+import { db } from '@/lib/db';
+
 export async function POST(req: Request) {
-    // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
     if (!WEBHOOK_SECRET) {
@@ -53,5 +57,37 @@ export async function POST(req: Request) {
     console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
     console.log('Webhook body:', body);
 
-    return new Response('', { status: 200 });
+    const bodyObject = JSON.parse(body);
+
+    const newName = bodyObject?.data?.username;
+    const newEmail = bodyObject?.data?.email_addresses[0]?.email_address;
+    const newImageUrl = bodyObject?.data?.image_url;
+
+    const profile = await currentProfile();
+
+    if (!profile) {
+        return new Response('Unauthorized', {
+            status: 401,
+        });
+    }
+
+    try {
+        await db.profile.update({
+            where: {
+                id: profile.id,
+            },
+            data: {
+                name: newName,
+                email: newEmail,
+                imageUrl: newImageUrl,
+            },
+        });
+
+        revalidatePath('/');
+        return new Response('', { status: 200 });
+    } catch (error) {
+        return new Response('Internal Error', {
+            status: 500,
+        });
+    }
 }
