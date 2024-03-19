@@ -8,9 +8,10 @@ import { useParams, useRouter } from 'next/navigation';
 
 interface DefaultProfilesButtonProps {
     profile: Profile;
+    notification: boolean;
 }
 
-export const DefaultProfilesButton = ({ profile }: DefaultProfilesButtonProps) => {
+export const DefaultProfilesButton = ({ profile, notification }: DefaultProfilesButtonProps) => {
     const params = useParams();
     const router = useRouter();
 
@@ -28,6 +29,7 @@ export const DefaultProfilesButton = ({ profile }: DefaultProfilesButtonProps) =
             )}
         >
             <UserAvatar src={profile.imageUrl} className="h-8 w-8 md:h-8 md:w-8" />
+            {notification && <div className="w-2 h-2 rounded-full bg-red-500"></div>}
             <p
                 className={cn(
                     'font-semibold text-sm text-zinc-500 group-hoverr:text-zinc-600 dark:text-zinc-400 dark:group-hover:text-zinc-300 transition',

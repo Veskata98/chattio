@@ -43,7 +43,7 @@ export default async function ConversationIdPage({ params }: ConversationIdPageP
     }
 
     return (
-        <div className="pt-2 bg-white dark:bg-[#313338] flex flex-col h-full">
+        <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
             <ChatHeader type="conversation" name={otherProfile.name} imageUrl={otherProfile.imageUrl} />
             <ConversationMessages
                 currentProfile={profile}

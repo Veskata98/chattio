@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { currentProfile } from '@/lib/currentProfile';
 import { DirectMessage } from '@prisma/client';
 import { db } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 
 const MESSAGES_BATCH = 10;
 
@@ -56,6 +57,16 @@ export async function GET(req: Request) {
                 },
             });
         }
+
+        await db.directMessage.updateMany({
+            where: {
+                profileId: { not: profile.id },
+                conversationId,
+            },
+            data: {
+                is_seen: true,
+            },
+        });
 
         let nextCursor = null;
 

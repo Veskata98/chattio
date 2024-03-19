@@ -2,7 +2,10 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 
+import { currentProfile } from '@/lib/currentProfile';
 import { db } from '@/lib/db';
+
+import { revalidatePath } from 'next/cache';
 
 export async function POST(req: Request) {
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -47,16 +50,17 @@ export async function POST(req: Request) {
         });
     }
 
-    // Get the ID and type
-    const { id } = evt.data;
-    const eventType = evt.type;
-
-    console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
     console.log('Webhook body:', body);
 
-    const bodyObject = JSON.parse(body);
+    const profile = await currentProfile();
 
-    const profileId = bodyObject?.data?.id as string;
+    if (!profile) {
+        return new Response('Unauthorized', {
+            status: 401,
+        });
+    }
+
+    const bodyObject = JSON.parse(body);
 
     const newName = bodyObject?.data?.username as string;
     const newEmail = bodyObject?.data?.email_addresses[0]?.email_address as string;
@@ -65,7 +69,7 @@ export async function POST(req: Request) {
     try {
         await db.profile.update({
             where: {
-                userId: profileId,
+                userId: profile.userId,
             },
             data: {
                 name: newName,
@@ -74,6 +78,7 @@ export async function POST(req: Request) {
             },
         });
 
+        revalidatePath('/');
         return new Response('', { status: 200 });
     } catch (error) {
         console.log(error);

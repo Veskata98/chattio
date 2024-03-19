@@ -62,7 +62,10 @@ export const DefaultSidebar = async () => {
                 <div>
                     {conversations.map((c) => {
                         const profileToShow = c.profileOneId === profile.id ? c.profileTwo : c.profileOne;
-                        return <DefaultProfilesButton key={c.id} profile={profileToShow} />;
+                        const notification = c.directMessages.some(
+                            (message) => message.profileId !== profile.id && message.is_seen === false
+                        );
+                        return <DefaultProfilesButton key={c.id} profile={profileToShow} notification={notification} />;
                     })}
                 </div>
             </ScrollArea>
