@@ -58,16 +58,6 @@ export async function GET(req: Request) {
             });
         }
 
-        await db.directMessage.updateMany({
-            where: {
-                profileId: { not: profile.id },
-                conversationId,
-            },
-            data: {
-                is_seen: true,
-            },
-        });
-
         let nextCursor = null;
 
         if (messages.length === MESSAGES_BATCH) {

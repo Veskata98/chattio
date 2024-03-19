@@ -23,11 +23,7 @@ export const DefaultSidebar = async () => {
         include: {
             profileOne: true,
             profileTwo: true,
-            directMessages: {
-                orderBy: {
-                    updatedAt: 'asc',
-                },
-            },
+            directMessages: true,
         },
     });
 
@@ -65,7 +61,14 @@ export const DefaultSidebar = async () => {
                         const notification = c.directMessages.some(
                             (message) => message.profileId !== profile.id && message.is_seen === false
                         );
-                        return <DefaultProfilesButton key={c.id} profile={profileToShow} notification={notification} />;
+                        return (
+                            <DefaultProfilesButton
+                                key={c.id}
+                                profile={profileToShow}
+                                conversationId={c.id}
+                                notification={notification}
+                            />
+                        );
                     })}
                 </div>
             </ScrollArea>

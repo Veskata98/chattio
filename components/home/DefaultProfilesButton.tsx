@@ -5,17 +5,20 @@ import { UserAvatar } from '../UserAvatar';
 import { cn } from '@/lib/utils';
 
 import { useParams, useRouter } from 'next/navigation';
+import { removeNotification } from '@/actions/removeNotification';
 
 interface DefaultProfilesButtonProps {
     profile: Profile;
+    conversationId: string;
     notification: boolean;
 }
 
-export const DefaultProfilesButton = ({ profile, notification }: DefaultProfilesButtonProps) => {
+export const DefaultProfilesButton = ({ profile, conversationId, notification }: DefaultProfilesButtonProps) => {
     const params = useParams();
     const router = useRouter();
 
-    const onClick = () => {
+    const onClick = async () => {
+        await removeNotification(conversationId);
         return router.push(`/conversations/${profile.id}`);
     };
 
