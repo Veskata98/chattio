@@ -8,10 +8,14 @@ import { useRouter } from 'next/navigation';
 export const HomeButton = () => {
     const router = useRouter();
 
+    const onClick = () => {
+        return router.push('/');
+    };
+
     return (
         <div>
             <ActionTooltip label="Home" side="right" align="center">
-                <button onClick={() => router.push('/')} className="group flex items-center">
+                <button onClick={onClick} className="group flex items-center">
                     <div
                         className="flex mx-3 h-[48px] w-[48px] rounded-[24px] 
                         group-hover:rounded-[16px] transition-all overflow-hidden 

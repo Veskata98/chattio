@@ -6,6 +6,8 @@ import { cn } from '@/lib/utils';
 
 import { useParams, useRouter } from 'next/navigation';
 import { removeNotification } from '@/actions/removeNotification';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { MessageCircleWarning } from 'lucide-react';
 
 interface DefaultProfilesButtonProps {
     profile: Profile;
@@ -31,8 +33,14 @@ export const DefaultProfilesButton = ({ profile, conversationId, notification }:
                 params?.profileId === profile.id && 'bg-zinc-700/20 dark:bg-zink-700'
             )}
         >
-            <UserAvatar src={profile.imageUrl} className="h-8 w-8 md:h-8 md:w-8" />
-            {notification && <div className="w-2 h-2 rounded-full bg-red-500"></div>}
+            <div className="relative">
+                <UserAvatar src={profile.imageUrl} className="h-8 w-8 md:h-8 md:w-8" />
+                {notification && (
+                    <div className="w-4 h-4 rounded-full bg-red-500 absolute -top-1 -right-1 flex justify-center items-center">
+                        <p className="text-sm">!</p>
+                    </div>
+                )}
+            </div>
             <p
                 className={cn(
                     'font-semibold text-sm text-zinc-500 group-hoverr:text-zinc-600 dark:text-zinc-400 dark:group-hover:text-zinc-300 transition',
