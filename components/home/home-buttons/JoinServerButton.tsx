@@ -12,8 +12,8 @@ export const JoinServerButton = () => {
             className="text-zinc-500 hover:text-zinc-600
                 dark:text-zinc-400 dark:hover:text-zinc-300
                 transition w-full flex justify-center items-center gap-x-2 py-3
-                bg-zinc-300 dark:bg-zinc-700
-                hover:bg-zinc-400 dark:hover:bg-zinc-600 font-semibold"
+                bg-orange-200 dark:bg-orange-400/50
+                hover:bg-orange-300 dark:hover:bg-orange-400/80 font-semibold"
         >
             Join Server
             <Server className="w-4 h-4" />

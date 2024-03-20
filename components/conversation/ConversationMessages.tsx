@@ -9,14 +9,14 @@ import { useChatScroll } from '@/hooks/useChatScroll';
 
 import { format } from 'date-fns';
 
-import { Message, Profile } from '@prisma/client';
+import { DirectMessage, Profile } from '@prisma/client';
 
 import { ConversationWelcome } from './ConversationWelcome';
 import { ConversationItem } from './ConversationItem';
 
 const DATE_FORMAT = 'd MMM yyyy, HH:mm';
 
-type MessageWithProfile = Message & {
+type DirectMessageWithProfile = DirectMessage & {
     profile: Profile;
 };
 
@@ -105,7 +105,7 @@ export const ConversationMessages = ({
             <div className="flex flex-col-reverse mt-auto">
                 {data?.pages?.map((group, i) => (
                     <Fragment key={i}>
-                        {group.items.map((message: MessageWithProfile & { is_edited: boolean }) => (
+                        {group.items.map((message: DirectMessageWithProfile) => (
                             <ConversationItem
                                 key={message.id}
                                 profile={message.profile}
