@@ -10,7 +10,7 @@ import { UserAvatar } from '@/components/UserAvatar';
 
 import { Profile } from '@prisma/client';
 
-import { findUserAction } from '@/actions/action';
+import { findUserAction } from '@/actions/findUserAction';
 
 export const FindUserModal = () => {
     const [users, setUsers] = useState<Profile[]>([]);
