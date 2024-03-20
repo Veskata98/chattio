@@ -19,6 +19,7 @@ Chatt.io mirrors the functionality of the well-known chat platform Discord. Leve
 -   Prisma with SQL database
 -   React Query for loading messages
 -   Clerk for authentication
+-   Shadcn/ui components
 -   Uploadthing for uploading images and PDF files
 -   Zustand for modal store
 -   Zod for form authentication

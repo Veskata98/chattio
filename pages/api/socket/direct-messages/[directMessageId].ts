@@ -95,6 +95,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
                 },
                 data: {
                     content,
+                    is_edited: true,
                 },
                 include: {
                     profile: true,

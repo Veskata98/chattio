@@ -146,7 +146,8 @@ model DirectMessage {
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
-  is_seen Boolean @default(false)
+  is_seen   Boolean @default(false)
+  is_edited Boolean @default(false)
 
   deleted Boolean @default(false)
 

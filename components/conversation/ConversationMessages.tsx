@@ -105,7 +105,7 @@ export const ConversationMessages = ({
             <div className="flex flex-col-reverse mt-auto">
                 {data?.pages?.map((group, i) => (
                     <Fragment key={i}>
-                        {group.items.map((message: MessageWithProfile) => (
+                        {group.items.map((message: MessageWithProfile & { is_edited: boolean }) => (
                             <ConversationItem
                                 key={message.id}
                                 profile={message.profile}
@@ -115,7 +115,7 @@ export const ConversationMessages = ({
                                 deleted={message.deleted}
                                 fileUrl={message.fileUrl}
                                 timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
-                                isUpdated={message.updatedAt !== message.createdAt}
+                                isUpdated={message.is_edited}
                                 socketUrl={socketUrl}
                                 socketQuery={socketQuery}
                             />

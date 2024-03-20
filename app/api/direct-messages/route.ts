@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import { currentProfile } from '@/lib/currentProfile';
 import { DirectMessage } from '@prisma/client';
 import { db } from '@/lib/db';
-import { revalidatePath } from 'next/cache';
 
 const MESSAGES_BATCH = 10;
 
