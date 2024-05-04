@@ -20,7 +20,10 @@ export const DefaultProfilesButton = ({ profile, conversationId, notification }:
     const router = useRouter();
 
     const onClick = async () => {
-        await removeNotification(conversationId);
+        if (notification) {
+            await removeNotification(conversationId);
+        }
+
         return router.push(`/conversations/${profile.id}`);
     };
 

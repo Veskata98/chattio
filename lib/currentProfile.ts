@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 
 export const currentProfile = async () => {
     const user = await currentUser();
+
     let displayName = '';
 
     if (!user) {
