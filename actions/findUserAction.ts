@@ -22,6 +22,7 @@ export const findUserAction = async (username: string): Promise<Profile[] | []> 
             where: {
                 name: {
                     startsWith: username,
+                    mode: 'insensitive',
                     not: {
                         equals: profile.name,
                     },

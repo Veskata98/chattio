@@ -9,12 +9,6 @@ type ConversationLayoutProps = {
 };
 
 const ConversationLayout = async ({ children }: ConversationLayoutProps) => {
-    const profile = await currentProfile();
-
-    if (!profile) {
-        return redirectToSignIn();
-    }
-
     return (
         <div className="h-full">
             <div className="hidden md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
