@@ -41,7 +41,7 @@ This project serves as a practical guide for building a real-time chat applicati
 
 ## Demo
 
-Explore the live demo of the project [here](https://discord-clone-production-0544.up.railway.app/).
+Explore the live demo of the project [here](https://chattio.up.railway.app).
 
 ## Installation
 
