@@ -5,7 +5,7 @@ export default function Page() {
     return (
         <SignIn
             afterSignInUrl={'/'}
-            afterSignUpUrl={'/'}
+            signUpUrl="/sign-up"
             appearance={{ baseTheme: dark, variables: { colorPrimary: '#f97316' } }}
         />
     );
