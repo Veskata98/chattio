@@ -41,7 +41,7 @@ This project serves as a practical guide for building a real-time chat applicati
 
 ## Demo
 
-Explore the live demo of the project [here](https://chattio-neon.vercel.app/).
+Explore the live demo of the project [here](https://chattio-supabase.vercel.app/).
 
 ## Installation
 
